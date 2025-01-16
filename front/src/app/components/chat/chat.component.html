@@ -1,0 +1,41 @@
+<div class="chat-container">
+  <div class="chat-header">
+    <h2>Support Client</h2>
+    <div class="user-info">
+      <span>{{ username }}</span>
+      <button (click)="logout()" class="logout-button">Déconnexion</button>
+    </div>
+  </div>
+
+  <div class="messages-container">
+    <div
+      *ngFor="let message of messages"
+      [ngClass]="{
+        message: true,
+        'own-message': message.sender === username
+      }"
+    >
+      <div class="message-header">
+        <span class="sender">{{ message.sender }}</span>
+        <span class="time">{{ message.timestamp | date : "HH:mm" }}</span>
+      </div>
+      <div class="message-content">{{ message.content }}</div>
+    </div>
+  </div>
+
+  <form
+    [formGroup]="messageForm"
+    (ngSubmit)="sendMessage()"
+    class="message-form"
+  >
+    <input
+      type="text"
+      formControlName="message"
+      placeholder="Tapez votre message..."
+      class="message-input"
+    />
+    <button type="submit" [disabled]="!messageForm.valid" class="send-button">
+      Envoyer
+    </button>
+  </form>
+</div>
